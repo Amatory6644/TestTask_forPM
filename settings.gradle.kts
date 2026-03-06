@@ -21,4 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "TestTask_forPM"
 include(":app")
- 
+include(":domain")
+include(":data")
+include(":feature_login")
+include(":feature_result")

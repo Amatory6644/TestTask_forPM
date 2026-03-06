@@ -9,6 +9,7 @@ import com.example.domain.validation.PasswordValidator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -19,15 +20,50 @@ class LoginViewModel(
     val email = MutableStateFlow("")
     val password = MutableStateFlow("")
 
+    private val _emailError = MutableStateFlow<String?>(null)
+    val emailError = _emailError
+
+    private val _passwordError = MutableStateFlow<String?>(null)
+    val passwordError = _passwordError
+
+    fun onEmailChanged(value: String) {
+
+        email.value = value
+
+        _emailError.value =
+            if (EmailValidator.validate(value))
+                null
+            else
+                "Проверьте правильность написания почты"
+    }
+
+    fun onPasswordChanged(value: String) {
+
+        password.value = value
+
+        _passwordError.value =
+            if (PasswordValidator.validate(value))
+                null
+            else
+                "Проверьте правильность написания пароля"
+    }
+
     val isButtonEnabled =
         combine(email, password) { email, pass ->
-
-            EmailValidator.validate(email) &&
+                    EmailValidator.validate(email) &&
                     PasswordValidator.validate(pass)
-
         }.stateIn(
             viewModelScope,
-            SharingStarted.WhileSubscribed(),
+            SharingStarted.WhileSubscribed(5000),
+            false
+        )
+
+    val isEmailValid =
+        email.map {
+            EmailValidator.validate(it)
+        }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
             false
         )
 

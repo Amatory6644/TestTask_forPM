@@ -1,15 +1,10 @@
 package com.example.domain.validation
 
+import android.util.Patterns
+
 object EmailValidator {
 
     fun validate(email: String): Boolean {
-
-        if (email.contains(" ")) return false
-
-        if (!email.contains("@")) return false
-
-        if (!email.contains(".")) return false
-
-        return true
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 }

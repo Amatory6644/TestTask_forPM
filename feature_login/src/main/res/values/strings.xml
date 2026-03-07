@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="writePassword">Введите пароль</string>
+    <string name="e_mail">E-mail</string>
+    <string name="login">Вход</string>
+    <string name="fogotPassword">Забыли пароль?</string>
+    <string name="log_in">Войти</string>
+    <string name="or">или</string>
+    <string name="No_have_acc">Нет аккаунта?</string>
+    <string name="registration">Зарегистрируйтесь</string>
+</resources>

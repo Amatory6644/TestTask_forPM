@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.LoginTest" parent="Theme.Material3.Dark.NoActionBar">
+
+        <item name="colorPrimary">#FF8C44</item>
+        <item name="colorSecondary">#FF8C44</item>
+        <item name="colorTertiary">#FF8C44</item>
+
+        <item name="colorPrimaryContainer">#FF8C44</item>
+        <item name="colorOnPrimary">#009688</item>
+
+        <item name="colorOutline">#673AB7</item>
+
+        <item name="textInputStyle">@style/Widget.App.TextInput</item>
+        <item name="colorOnError">#03A9F4</item>
+        <item name="colorError">@color/input_error</item>
+        <item name="errorTextColor">@color/input_error</item>
+
+    </style>
+
+</resources>

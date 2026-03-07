@@ -27,30 +27,28 @@ class LoginViewModel(
     val passwordError = _passwordError
 
     fun onEmailChanged(value: String) {
-
         email.value = value
-
         _emailError.value =
-            if (EmailValidator.validate(value))
-                null
-            else
-                "Проверьте правильность написания почты"
+            when {
+                value.isBlank() -> null
+                EmailValidator.validate(value) -> null
+                else ->"Проверьте правильность написания почты"
+            }
     }
 
     fun onPasswordChanged(value: String) {
-
         password.value = value
-
         _passwordError.value =
-            if (PasswordValidator.validate(value))
-                null
-            else
-                "Проверьте правильность написания пароля"
+            when {
+                value.isBlank() -> null
+                PasswordValidator.validate(value) -> null
+                else -> "Проверьте правильность написания пароля"
+            }
     }
 
     val isButtonEnabled =
         combine(email, password) { email, pass ->
-                    EmailValidator.validate(email) &&
+            EmailValidator.validate(email) &&
                     PasswordValidator.validate(pass)
         }.stateIn(
             viewModelScope,
@@ -59,18 +57,17 @@ class LoginViewModel(
         )
 
     val isEmailValid =
-        email.map {
-            EmailValidator.validate(it)
-        }.stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            false
-        )
+        email
+            .map {
+                EmailValidator.validate(it)
+            }.stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                false
+            )
 
     fun register() {
-
         viewModelScope.launch {
-
             saveUserUseCase(
                 User(
                     email.value,

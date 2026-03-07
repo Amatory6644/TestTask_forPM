@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.feature_login.databinding.ActivityLoginBinding
 import com.example.feature_login.viewmodel.LoginViewModel
 import com.example.feature_result.ui.ResultActivity
@@ -13,7 +15,6 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityLoginBinding
     private val viewModel: LoginViewModel by viewModel()
 
@@ -25,10 +26,11 @@ class LoginActivity : AppCompatActivity() {
 
         setupListeners()
         observeViewModel()
+
     }
 
-    private fun setupListeners() {
 
+    private fun setupListeners() {
         binding.emailInput.doAfterTextChanged {
             viewModel.onEmailChanged(it.toString())
         }
@@ -38,9 +40,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.loginBtn.setOnClickListener {
-
             viewModel.register()
-
             startActivity(
                 Intent(this, ResultActivity::class.java)
             )
@@ -55,46 +55,37 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+
     private fun observeViewModel() {
-
         lifecycleScope.launch {
-
-            viewModel.emailError.collect {
-                binding.emailLayout.error = it
-
-            }
-
-        }
-
-        lifecycleScope.launch {
-            viewModel.isEmailValid.collect { isValid ->
-
-                binding.emailLayout.isEndIconVisible =
-                    isValid && binding.emailInput.text?.isNotEmpty() == true
-
-            }
-        }
-
-        lifecycleScope.launch {
-
-            viewModel.passwordError.collect {
-                binding.passwordLayout.error = it
-            }
-
-        }
-
-        lifecycleScope.launch {
-
-            viewModel.isButtonEnabled.collect {
-
-                binding.loginBtn.apply {
-                    isEnabled = it
-                    alpha = if (it) 1f else 0.5f
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.emailError.collect { error ->
+                        binding.emailLayout.error = error
+                    }
+                }
+                launch {
+                    viewModel.isEmailValid.collect { isValid ->
+                        binding.emailLayout.isEndIconVisible =
+                            isValid && binding.emailInput.text?.isNotEmpty() == true
+                    }
                 }
 
+                launch {
+                    viewModel.passwordError.collect {
+                        binding.passwordLayout.error = it
+                    }
+                }
+
+                launch {
+                    viewModel.isButtonEnabled.collect {
+                        binding.loginBtn.apply {
+                            isEnabled = it
+                            alpha = if (it) 1f else 0.5f
+                        }
+                    }
+                }
             }
-
         }
-
     }
 }

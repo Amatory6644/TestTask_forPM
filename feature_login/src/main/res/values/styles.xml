@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.App.TextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+
+
+        <item name="boxBackgroundMode">outline</item>
+
+
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+
+
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+
+        <item name="boxStrokeColor">@color/input_stroke_selector</item>
+        <item name="boxStrokeErrorColor">@color/input_error</item>
+
+
+        <item name="errorEnabled">true</item>
+        <item name="errorTextAppearance">@style/TextInputErrorText</item>
+
+        <item name="errorIconDrawable">@null</item>
+
+    </style>
+    <style name="TextInputErrorText">
+        <item name="android:textColor">@color/input_error</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+</resources>

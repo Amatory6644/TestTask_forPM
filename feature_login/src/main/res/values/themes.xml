@@ -8,7 +8,7 @@
         <item name="colorTertiary">#FF8C44</item>
 
         <item name="colorPrimaryContainer">#FF8C44</item>
-        <item name="colorOnPrimary">#009688</item>
+        <item name="colorOnPrimary">@color/hint_gray</item>
 
         <item name="colorOutline">#673AB7</item>
 
